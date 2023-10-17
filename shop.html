@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tienda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <div class="jumbotron ">
+        <img src="https://i.imgur.com/Jn3cbJQ.png" class="banner" alt="Imagen del banner">
+    </div>
+    
+   
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class a href="admin.html" id="adminContent" style="display: none" >
+                <button>Administrar Productos</button>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html"  id="adminContent" style="display: none">Catalogo de Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">Tienda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Acerca de</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-link" onclick="logout()">Cerrar Sesión</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <h1 class="mt-4">Tienda</h1>
+        <div class="mt-4 row" id="productContainer">
+            <!-- Los productos disponibles se listarán en columnas aquí -->
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Resumen de Compra</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="resumenCompra">
+                    <!-- Los detalles de la compra se generarán dinámicamente con JavaScript -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Total:</td>
+                        <td id="total"></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn btn-primary" id="botonComprar">Comprar</button>
+        </div>
+    </div>
+
+    <!-- Pie de página  -->
+    <footer class="text-muted py-5">
+        <div class="container">
+            <p class="float-end mb-1">
+                <a href="#">Volver arriba</a>
+            </p>
+            <p class="mb-1">Catalogo de Productos &copy; 2023</p>
+            <p class="mb-0">¿Necesitas ayuda? <a href="#">Contáctanos</a></p>
+        </div>
+    </footer>
+
+
+    <script>
+const userRole = localStorage.getItem("userRole");
+
+if (userRole === "admin") {
+    // Si el usuario es un administrador, mostrar el botón "Catálogo de Productos"
+    document.getElementById("adminContent").style.display = "block";
+} else {
+    // Si el usuario no es un administrador, ocultar el botón "Catálogo de Productos"
+    document.getElementById("adminContent").style.display = "none";
+}
+        function logout() 
+        {
+            localStorage.removeItem("userRole");
+            window.location.href = "login.html"; // Redirige al usuario a la página de inicio de sesión
+        }
+
+         if (userRole === "admin") 
+        {
+            document.getElementById("adminContent").style.display = "block";
+        }
+        // Funciones JavaScript para la tienda (simulación)
+        let availableProducts = JSON.parse(localStorage.getItem('products')) || [];
+        let cartItems = [];
+
+        function addToCart(productId, quantity) {
+            const productToAdd = availableProducts.find(product => product.id === productId);
+            if (productToAdd) {
+                // Agregar el producto al carrito
+                const existingCartItem = cartItems.find(item => item.id === productToAdd.id);
+                if (existingCartItem) {
+                    existingCartItem.quantity += quantity;
+                } else {
+                    cartItems.push({ id: productToAdd.id, name: productToAdd.name, price: productToAdd.price, quantity });
+                }
+                updateCartContent();
+                
+            } 
+        }
+
+        function updateCartContent() {
+    const resumenCompra = document.getElementById("resumenCompra");
+    const total = document.getElementById("total");
+    // Limpia el contenido anterior del resumen de compra
+    resumenCompra.innerHTML = "";
+    
+    let subtotalTotal = 0;
+
+    cartItems.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        subtotalTotal += subtotal;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.name}</td>
+         
+            <td>${item.quantity}</td>
+            <td>$${item.price}</td>
+            <td>$${subtotal}</td>
+        `;
+
+        resumenCompra.appendChild(row);
+    });
+
+    // Actualiza el total
+    total.textContent = `$${subtotalTotal}`;
+}
+
+
+        function updateProductList() {
+            const productContainer = document.getElementById("productContainer");
+            productContainer.innerHTML = "";
+            availableProducts.forEach(product => {
+                const productColumn = document.createElement("div");
+                productColumn.className = "col-lg-3 col-md-6 col-sm-6 col-12 product";
+                productColumn.innerHTML = `
+                    <div class="border p-3 mb-4 product-container">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="Imagen del producto">
+                        </div>
+                        <div class="product-details">
+                            <p>ID: ${product.id}</p>
+                            <p>Nombre: ${product.name}</p>
+                            <p>Precio: $${product.price}</p>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline-secondary" onclick="decrementQuantity('quantity-${product.id}')">-</button>
+                            <input type="number" id="quantity-${product.id}" class="quantity-input" value="1">
+                            <button class="btn btn-outline-secondary" onclick="incrementQuantity('quantity-${product.id}')">+</button>
+                            <button class="btn btn-success" onclick="addToCart(${product.id}, parseInt(document.getElementById('quantity-${product.id}').value))">Comprar</button>
+                        </div>
+                    </div>`;
+                productContainer.appendChild(productColumn);
+            });
+        }
+
+        // Funciones para incrementar y decrementar la cantidad
+        function incrementQuantity(elementId) {
+            const quantityInput = document.getElementById(elementId);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decrementQuantity(elementId) {
+            const quantityInput = document.getElementById(elementId);
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        }
+         // Función para generar el ticket de compra
+    function generarTicketDeCompra() {
+        // Crea una ventana emergente
+        const nuevaVentana = window.open("", "Ticket de Compra", "width=500,height=500");
+
+        // Crea el contenido del ticket de compra en la ventana emergente
+        let ticketContenido = `
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Ticket de Compra</title>
+                <link rel="stylesheet" href="css/style.css">
+                <style>
+                    /* Estilos para el ticket de compra */
+    .ticket {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px solid #333;
+        font-family: Arial, sans-serif;
+    }
+
+    .ticket h2 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #333;
+        padding: 8px;
+    }
+
+    thead {
+        background-color: #333;
+        color: #fff;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    tfoot {
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
+    }
+                 </style>
+            </head>
+            <body>
+                <div class="ticket">
+                    <h2>Ticket de Compra</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+
+        // Itera a través de los elementos del carrito
+        let totalCompra = 0;
+        cartItems.forEach(item => {
+            const subtotal = item.price * item.quantity;
+            totalCompra += subtotal;
+            ticketContenido += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${subtotal.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        // Agrega el total al ticket
+        ticketContenido += `
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Total:</td>
+                                <td></td>
+                                <td>$${totalCompra.toFixed(2)}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </body>
+            </html>
+        `;
+
+        // Inserta el contenido en la ventana emergente
+        nuevaVentana.document.write(ticketContenido);
+    }
+
+    // Asocia la función al evento de clic del botón "Comprar"
+    const botonComprar = document.getElementById("botonComprar");
+    botonComprar.addEventListener("click", generarTicketDeCompra);
+        // Actualiza la lista de productos disponibles al cargar la página
+        updateProductList();
+        updateCartContent();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
