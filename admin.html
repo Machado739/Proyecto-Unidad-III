@@ -7,8 +7,8 @@
 </head>
 <body>
     <!-- Banner -->
-    <div class="jumbotron text-center">
-        <h1>Logo de tu Empresa</h1>
+    <div class="jumbotron">
+        <img src="https://i.imgur.com/Jn3cbJQ.png" class="banner" alt="Imagen del banner">
     </div>
 
     <!-- Menú -->
@@ -20,13 +20,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="admin.html" id="adminContent" style="display: none">Catalogo de Productos</a>
+                    <a class="nav-link" href="admin.html" id="adminContent" style="display: none">Catálogo de Productos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="shop.html">Tienda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Acerca de</a>
+                    <a class="nav-link" href="info.html">Acerca de</a>
                 </li>
                 <li class="nav-item">
                     <button class="btn btn-link" onclick="logout()">Cerrar Sesión</button>
@@ -137,13 +137,16 @@
             products.forEach(product => {
                 const productColumn = document.createElement("div");
                 productColumn.className = "col-md-4 col-sm-6 col-12 product-admin";
-                productColumn.innerHTML = `<div class="border p-3 mb-4">
+                productColumn.innerHTML = `
+                <div class="border p-3 mb-4">
                     <p>ID: ${product.id}</p>
                     <p>Nombre: ${product.name}</p>
                     <p>Precio: $${product.price}</p>
                     <img src="${product.image}" alt="Imagen del producto" class="product-image-admin">
-                    <button class="btn btn-danger" onclick="removeProduct(${product.id})">Eliminar</button>
-                    <button class="btn btn-primary" onclick="editProduct(${product.id})">Editar</button>
+                    <div class="btn-group">
+                        <button class="btn btn-danger" onclick="removeProduct(${product.id})">Eliminar</button>
+                        <button class="btn btn-primary" onclick="editProduct(${product.id})">Editar</button>
+                    </div>
                     <div class="edit-form" id="editForm${product.id}">
                         <h4>Editar Producto</h4>
                         <div class="form-group">

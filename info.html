@@ -4,39 +4,81 @@
     <title>Información sobre esta Página</title>
     <!-- Agregar enlaces a Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Agregar estilos personalizados -->
-    <style>
-        body {
-            background-color: #f0f0f0;
-            padding: 20px;
-        }
-        .info-card {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="info-card">
-            <h1 class="text-center">Información sobre esta Página</h1>
-            <p>Esta página fue creada por [Tu Nombre o Nombre del Creador] utilizando las siguientes herramientas y tecnologías:</p>
-            <ul>
-                <li>HTML5</li>
-                <li>CSS3</li>
-                <li>Bootstrap 4</li>
-                <li>JavaScript</li>
-               
+    <!-- Banner -->
+    <div class="jumbotron ">
+        <img src="https://i.imgur.com/Jn3cbJQ.png" class="banner" alt="Imagen del banner">
+    </div>
+
+    <!-- Menú -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html" id="adminContent" style="display: none">Catálogo de Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shop.html">Tienda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="info.html">Acerca de</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-link" onclick="logout()">Cerrar Sesión</button>
+                </li>
             </ul>
-            <p>Espero que esta página sea útil y te sirva como referencia para tus proyectos web.</p>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h1 class="card-title text-center">Información sobre esta Página</h1>
+                <p class="card-text">Esta página fue creada por Alexis Machado Rodriguez utilizando las siguientes herramientas y tecnologías:</p>
+                <ul class="list-group">
+                    <li class="list-group-item">HTML5</li>
+                    <li class="list-group-item">CSS3</li>
+                    <li class="list-group-item">Bootstrap 4</li>
+                    <li class="list-group-item">JavaScript</li>
+                </ul>
+                <p class="card-text mt-3">Espero que esta página sea útil y te sirva como referencia para tus proyectos web.</p>
+    
+                <!-- Información de Contacto -->
+                <h2 class="card-title text-center mt-4">Información de Contacto</h2>
+                <address>
+                    <strong>Nombre: Alexis Machado Rodriguez</strong><br>
+                    <strong>Correo Electrónico:<a href="mailto:a20490715@itmexicali.edu.mx"> a20490715@itmexicali.edu.mx</a></strong><br>
+                    <strong>Teléfono: (123) 456-7890</strong><br>
+                    <strong>Dirección: Calle Principal, Ciudad, País</strong><br>
+                </address>
+            </div>
         </div>
     </div>
 
     <!-- Agregar enlaces a los scripts de Bootstrap y jQuery al final del documento -->
+    <script>
+
+function logout() {
+            localStorage.removeItem("userRole");
+            window.location.href = "login.html"; // Redirige al usuario a la página de inicio de sesión
+        }
+
+        const userRole = localStorage.getItem("userRole");
+
+        if (userRole === "admin") {
+            // Si el usuario es un administrador, mostrar el botón "Catálogo de Productos"
+            document.getElementById("adminContent").style.display = "block";
+        } else {
+            // Si el usuario no es un administrador, ocultar el botón "Catálogo de Productos"
+            document.getElementById("adminContent").style.display = "none";
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
