@@ -26,6 +26,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="shop.html">Tienda</a>
                 </li>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="calculadoraBtn">Calculadora</a>
+            </li>
                 <li class="nav-item">
                     <a class="nav-link" href="info.html">Acerca de</a>
                 </li>
@@ -35,6 +39,43 @@
             </ul>
         </div>
     </nav>
+
+ <!-- Calculadora modal oculta al principio -->
+ <div id="modal-container" class="modal-container" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="calculadoraModalLabel">Calculadora</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="calculadora" class="calculator">
+                <input type="text" id="resultado" class="form-control screen" disabled>
+                <div id="teclado" class="buttons">
+                    <!-- Botones de la calculadora con estilos -->
+                    <button onclick="borrarPantalla()" class="button clear">C</button>
+                    <button onclick="agregarNumero('7')" class="button">7</button>
+                    <button onclick="agregarNumero('8')" class="button">8</button>
+                    <button onclick="agregarNumero('9')" class="button">9</button>
+                    <button onclick="agregarOperador('+')" class="button operator">+</button>
+                    <button onclick="agregarNumero('4')" class="button">4</button>
+                    <button onclick="agregarNumero('5')" class="button">5</button>
+                    <button onclick="agregarNumero('6')" class="button">6</button>
+                    <button onclick="agregarOperador('-')" class="button operator">-</button>
+                    <button onclick="agregarNumero('1')" class="button">1</button>
+                    <button onclick="agregarNumero('2')" class="button">2</button>
+                    <button onclick="agregarNumero('3')" class="button">3</button>
+                    <button onclick="agregarOperador('*')" class="button operator">*</button>
+                    <button onclick="agregarNumero('0')" class="button">0</button>
+                    <button onclick="agregarNumero('.')" class="button">.</button>
+                    <button onclick="calcularResultado()" class="button equal">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <div class="container">
         <div class="card mt-5">
@@ -63,7 +104,54 @@
 
     <!-- Agregar enlaces a los scripts de Bootstrap y jQuery al final del documento -->
     <script>
+   const calculadoraBtn = document.getElementById("calculadoraBtn");
+const modalContainer = document.getElementById("modal-container");
 
+calculadoraBtn.addEventListener("click", function () {
+    modalContainer.style.display = "flex";
+});
+
+// Cierra la calculadora cuando se hace clic en el botón "Cerrar" o en el fondo oscuro
+const closeButton = document.getElementById("closeButton");
+
+closeButton.addEventListener("click", function () {
+    modalContainer.style.display = "none";
+});
+
+modalContainer.addEventListener("click", function (e) {
+    if (e.target === modalContainer) {
+        modalContainer.style.display = "none";
+    }
+});
+
+        
+         // Agrega el siguiente código para mostrar la calculadora modal
+     
+        calculadoraBtn.addEventListener("click", function () {
+            $("#calculadoraModal").modal("show");
+        });
+        let pantalla = document.getElementById("resultado");
+    let operacion = "";
+
+    function agregarNumero(numero) {
+        pantalla.value += numero;
+    }
+
+    function agregarOperador(op) {
+        pantalla.value += op;
+    }
+
+    function calcularResultado() {
+        try {
+            pantalla.value = eval(pantalla.value);
+        } catch (error) {
+            pantalla.value = "Error";
+        }
+    }
+
+    function borrarPantalla() {
+        pantalla.value = "";
+    }
 function logout() {
             localStorage.removeItem("userRole");
             window.location.href = "login.html"; // Redirige al usuario a la página de inicio de sesión

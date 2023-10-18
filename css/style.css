@@ -19,6 +19,7 @@ body {
 }
 
 .product .product-image img {
+    
     max-width: 100%;
     max-height: 100%; /* La imagen ocupará la altura completa del contenedor */
     object-fit: contain; /* Mantiene la relación de aspecto y ajusta la imagen al contenedor */
@@ -40,7 +41,7 @@ body {
 
 
 .product-admin {
-    min-width: 250px;
+    min-width: 300px;
     margin-bottom: 20px;
 }
 
@@ -60,4 +61,66 @@ body {
 
 .edit-form.show {
     display: block;
+}
+/* Estilos para la calculadora */
+.calculator {
+    text-align: center;
+}
+
+.screen {
+    width: 100%;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.button {
+    width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+}
+
+.operator {
+    background-color: #ff8800;
+    color: #fff;
+}
+
+.equal {
+    background-color: #0088ff;
+    color: #fff;
+}
+
+.clear {
+    background-color: #ff0000;
+    color: #fff;
+}
+.modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px 0px #000;
 }
