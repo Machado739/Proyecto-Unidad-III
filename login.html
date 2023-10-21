@@ -5,7 +5,6 @@
     <!-- Agregar enlaces a Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-
 <body>
     <div class="container">
         <div class="row justify-content-center mt-5">
@@ -18,12 +17,10 @@
                                 <label for="username">Nombre de usuario:</label>
                                 <input type="text" id="username" class="form-control" required>
                             </div>
-
                             <div class="form-group">
                                 <label for="password">Contraseña:</label>
                                 <input type="password" id="password" class="form-control" required>
                             </div>
-
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                             </div>
@@ -33,37 +30,31 @@
             </div>
         </div>
     </div>
-
     <script>
-
-
-
         // Simulación de usuarios y roles (puedes cambiar esto)
-const users = [
-    { username: "admin", password: "admin", role: "admin" },
-    { username: "cliente", password: "cliente", role: "cliente" },
-];
+        const users = [
+            { username: "admin", password: "admin", role: "admin" },
+            { username: "cliente", password: "cliente", role: "cliente" },
+        ];
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const user = users.find((u) => u.username === username && u.password === password);
+            if (user) {
+                // Almacenar el rol del usuario en localStorage
+                localStorage.setItem("userRole", user.role);
+                if (user.role === "admin") {
+                    window.location.href = "admin.html"; // Redirige a la página de administración
+                } else {
+                    window.location.href = "shop.html"; // Redirige a la tienda
+                }
+            } else {
+                alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+            }
+        });
+        // Obtén el rol del usuario almacenado en localStorage
 
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    const user = users.find((u) => u.username === username && u.password === password);
-
-    if (user) {
-        // Almacenar el rol del usuario en localStorage
-        localStorage.setItem("userRole", user.role);
-
-        if (user.role === "admin") {
-            window.location.href = "admin.html"; // Redirige a la página de administración
-        } else {
-            window.location.href = "shop.html"; // Redirige a la tienda
-        }
-    } else {
-        alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
-    }
-});s
 
     </script>
 </body>

@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <script>
+        // Obtén el rol del usuario almacenado en localStorage
+        const userRole = localStorage.getItem("userRole");
+
+        if (userRole === "admin") {
+            // El usuario tiene el rol de "admin", puedes permitir el acceso al contenido de administrador.
+        } else {
+            // El usuario no tiene el rol de "admin", redirige o muestra un mensaje de acceso denegado.
+            window.location.href = "login.html"; // O redirige a otra página adecuada.
+        }
+
+    </script>
     <!-- Banner -->
     <div class="jumbotron">
         <img src="https://i.imgur.com/Jn3cbJQ.png" class="banner" alt="Imagen del banner">
@@ -25,10 +37,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="shop.html">Tienda</a>
                 </li>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="calculadoraBtn">Calculadora</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="calculadoraBtn">Calculadora</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="info.html">Acerca de</a>
                 </li>
@@ -39,48 +50,43 @@
         </div>
     </nav>
 
-
-
-
- <!-- Calculadora modal oculta al principio -->
- <div id="modal-container" class="modal-container" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="calculadoraModalLabel">Calculadora</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div id="calculadora" class="calculator">
-                <input type="text" id="resultado" class="form-control screen" disabled>
-                <div id="teclado" class="buttons">
-                    <!-- Botones de la calculadora con estilos -->
-                    <button onclick="borrarPantalla()" class="button clear">C</button>
-                    <button onclick="agregarNumero('7')" class="button">7</button>
-                    <button onclick="agregarNumero('8')" class="button">8</button>
-                    <button onclick="agregarNumero('9')" class="button">9</button>
-                    <button onclick="agregarOperador('+')" class="button operator">+</button>
-                    <button onclick="agregarNumero('4')" class="button">4</button>
-                    <button onclick="agregarNumero('5')" class="button">5</button>
-                    <button onclick="agregarNumero('6')" class="button">6</button>
-                    <button onclick="agregarOperador('-')" class="button operator">-</button>
-                    <button onclick="agregarNumero('1')" class="button">1</button>
-                    <button onclick="agregarNumero('2')" class="button">2</button>
-                    <button onclick="agregarNumero('3')" class="button">3</button>
-                    <button onclick="agregarOperador('*')" class="button operator">*</button>
-                    <button onclick="agregarNumero('0')" class="button">0</button>
-                    <button onclick="agregarNumero('.')" class="button">.</button>
-                    <button onclick="calcularResultado()" class="button equal">=</button>
+    <!-- Calculadora modal oculta al principio -->
+    <div id="modal-container" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="calculadoraModalLabel">Calculadora</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="calculadora" class="calculator">
+                    <input type="text" id="resultado" class="form-control screen" disabled>
+                    <div id="teclado" class="buttons">
+                        <!-- Botones de la calculadora con estilos -->
+                        <button onclick="borrarPantalla()" class="button clear">C</button>
+                        <button onclick="agregarNumero('7')" class="button">7</button>
+                        <button onclick="agregarNumero('8')" class="button">8</button>
+                        <button onclick="agregarNumero('9')" class="button">9</button>
+                        <button onclick="agregarOperador('+')" class="button operator">+</button>
+                        <button onclick="agregarNumero('4')" class="button">4</button>
+                        <button onclick="agregarNumero('5')" class="button">5</button>
+                        <button onclick="agregarNumero('6')" class="button">6</button>
+                        <button onclick="agregarOperador('-')" class="button operator">-</button>
+                        <button onclick="agregarNumero('1')" class="button">1</button>
+                        <button onclick="agregarNumero('2')" class="button">2</button>
+                        <button onclick="agregarNumero('3')" class="button">3</button>
+                        <button onclick="agregarOperador('*')" class="button operator">*</button>
+                        <button onclick="agregarNumero('0')" class="button">0</button>
+                        <button onclick="agregarNumero('.')" class="button">.</button>
+                        <button onclick="calcularResultado()" class="button equal">=</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 
     
-    <div class="container">
         <h1 class="mt-4">Administrar Productos</h1>
 
         <!-- Formulario para agregar productos -->
@@ -114,73 +120,59 @@
                 <!-- Los productos se listarán en columnas aquí -->
             </div>
         </div>
-    </div>
+   
 
     <script>
+        const calculadoraBtn = document.getElementById("calculadoraBtn");
+        const modalContainer = document.getElementById("modal-container");
 
-const calculadoraBtn = document.getElementById("calculadoraBtn");
-const modalContainer = document.getElementById("modal-container");
-
-calculadoraBtn.addEventListener("click", function () {
-    modalContainer.style.display = "flex";
-});
-
-// Cierra la calculadora cuando se hace clic en el botón "Cerrar" o en el fondo oscuro
-const closeButton = document.getElementById("closeButton");
-
-closeButton.addEventListener("click", function () {
-    modalContainer.style.display = "none";
-});
-
-modalContainer.addEventListener("click", function (e) {
-    if (e.target === modalContainer) {
-        modalContainer.style.display = "none";
-    }
-});
-
-        
-         // Agrega el siguiente código para mostrar la calculadora modal
-     
         calculadoraBtn.addEventListener("click", function () {
-            $("#calculadoraModal").modal("show");
+            modalContainer.style.display = "flex";
         });
+
+        // Cierra la calculadora cuando se hace clic en el botón "Cerrar" o en el fondo oscuro
+        const closeButton = document.getElementById("closeButton");
+
+        closeButton.addEventListener("click", function () {
+            modalContainer.style.display = "none";
+        });
+
+        modalContainer.addEventListener("click", function (e) {
+            if (e.target === modalContainer) {
+                modalContainer.style.display = "none";
+            }
+        });
+
         let pantalla = document.getElementById("resultado");
-    let operacion = "";
+        let operacion = "";
 
-    function agregarNumero(numero) {
-        pantalla.value += numero;
-    }
-
-    function agregarOperador(op) {
-        pantalla.value += op;
-    }
-
-    function calcularResultado() {
-        try {
-            pantalla.value = eval(pantalla.value);
-        } catch (error) {
-            pantalla.value = "Error";
+        function agregarNumero(numero) {
+            pantalla.value += numero;
         }
-    }
 
-    function borrarPantalla() {
-        pantalla.value = "";
-    }
+        function agregarOperador(op) {
+            pantalla.value += op;
+        }
+
+        function calcularResultado() {
+            try {
+                pantalla.value = eval(pantalla.value);
+            } catch (error) {
+                pantalla.value = "Error";
+            }
+        }
+
+        function borrarPantalla() {
+            pantalla.value = "";
+        }
 
         function logout() {
             localStorage.removeItem("userRole");
             window.location.href = "login.html"; // Redirige al usuario a la página de inicio de sesión
         }
 
-        const userRole = localStorage.getItem("userRole");
+     
 
-        if (userRole === "admin") {
-            // Si el usuario es un administrador, mostrar el botón "Catálogo de Productos"
-            document.getElementById("adminContent").style.display = "block";
-        } else {
-            // Si el usuario no es un administrador, ocultar el botón "Catálogo de Productos"
-            document.getElementById("adminContent").style.display = "none";
-        }
         function validateAndAddProduct() {
             const productName = document.getElementById("productName").value;
             const productPrice = document.getElementById("productPrice").value;
@@ -213,6 +205,7 @@ modalContainer.addEventListener("click", function (e) {
 
             addProduct(productName, productPrice, productImage);
         }
+
         // Inicializar la variable "products" desde el almacenamiento local
         let products = JSON.parse(localStorage.getItem('products')) || [];
         let nextProductId = products.length + 1;
@@ -226,13 +219,31 @@ modalContainer.addEventListener("click", function (e) {
             clearForm();
         }
 
+        // Función para eliminar un producto con confirmación
+        function removeProduct(productId) {
+            const product = products.find(product => product.id === productId);
+
+            if (product) {
+                const productName = product.name;
+                const confirmationMessage = `¿Estás seguro de que deseas eliminar el producto "${productName}" (ID: ${productId}) de forma permanente? Esta acción no se puede deshacer.`;
+
+                const isConfirmed = confirm(confirmationMessage);
+
+                if (isConfirmed) {
+                    products = products.filter(item => item.id !== productId);
+                    updateProductList();
+                    saveProducts();
+                }
+            }
+        }
+
         // Función para actualizar la lista de productos en la página
         function updateProductList() {
             const productList = document.getElementById("productList");
             productList.innerHTML = "";
             products.forEach(product => {
                 const productColumn = document.createElement("div");
-                productColumn.className = "col-md-4 col-sm-6 col-12 product-admin";
+                productColumn.className = "col-lg-2 col-md-4 col-sm-6  product-admin";
                 productColumn.innerHTML = `
                 <div class="border p-3 mb-4">
                     <p>ID: ${product.id}</p>
@@ -253,7 +264,7 @@ modalContainer.addEventListener("click", function (e) {
                             <label for="editPrice${product.id}">Precio:</label>
                             <input type="number" id="editPrice${product.id}" class="form-control" value="${product.price}" required>
                         </div>
-                        <div class="form-group">
+                        <div class "form-group">
                             <label for="editImage${product.id}">URL de la Imagen:</label>
                             <input type="url" id="editImage${product.id}" class="form-control" value="${product.image}" required>
                         </div>
@@ -290,13 +301,6 @@ modalContainer.addEventListener("click", function (e) {
                     editForm.classList.remove("show");
                 }
             }
-        }
-
-        // Función para eliminar un producto
-        function removeProduct(productId) {
-            products = products.filter(product => product.id !== productId);
-            updateProductList();
-            saveProducts();
         }
 
         // Función para limpiar el formulario
